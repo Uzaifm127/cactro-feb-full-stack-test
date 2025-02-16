@@ -33,7 +33,7 @@ export function PollClient({ pollId }: { pollId: string }) {
           setFetchLoading(true);
         }
 
-        const responseObject = await fetch(`/api/poll/fetch/${pollId}`, {
+        const responseObject = await fetch(`/api/poll/fetch?pollId=${pollId}`, {
           method: "GET",
         });
 

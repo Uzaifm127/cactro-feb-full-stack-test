@@ -1,13 +1,15 @@
 import { prisma } from "@/lib/prisma";
 import { NextRequest, NextResponse } from "next/server";
 
-export const GET = async (
-  _req: NextRequest,
-  { params }: { params: { pollId: string } }
-) => {
-  try {
-    const { pollId } = params;
+export const GET = async (req: NextRequest) => {
+  const url = new URL(req.url);
+  const pollId = url.searchParams.get("pollId");
 
+  if (!pollId) {
+    throw new Error("Invalid poll Id");
+  }
+
+  try {
     const poll = await prisma.poll.findFirst({
       where: { id: pollId },
       include: { options: true },
